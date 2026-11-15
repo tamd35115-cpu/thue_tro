@@ -44,6 +44,8 @@ export default function RoomDetailPage({ roomId, api, user, navigate, notify, on
   if (!room) return <main className="container loading-panel detail-loading"><span className="spinner" /> Đang tải thông tin phòng...</main>
   const images = room.images?.length ? room.images : room.cover_image ? [room.cover_image] : []
   const ownerName = room.owner_name || room.tenChuTro || 'Chủ trọ'
+  const ownerPhone = String(room.owner_phone || room.owner_contact?.phone || '').trim()
+  const ownerPhoneTel = ownerPhone.replace(/[^\d+]/g, '')
   const ownerZaloLink = room.owner_zalo_link || ''
 
   return (
@@ -70,6 +72,12 @@ export default function RoomDetailPage({ roomId, api, user, navigate, notify, on
               <div className="zalo-contact-block">
                 <h4>Liên hệ trực tiếp với người đăng</h4>
                 <p>Nhắn tin cho chủ trọ qua Zalo để hỏi thêm thông tin và hẹn lịch xem phòng.</p>
+                {ownerPhone && (
+                  <div className="revealed-phone">
+                    <small>SỐ ĐIỆN THOẠI</small>
+                    <b><a href={`tel:${ownerPhoneTel}`}>{ownerPhone}</a></b>
+                  </div>
+                )}
                 <a
                   className="zalo-chat-button"
                   href={ownerZaloLink}
