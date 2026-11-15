@@ -1,0 +1,16 @@
+import { Router } from "express";
+import * as controller from "../controllers/contactController.js";
+import { authenticate } from "../middlewares/authMiddleware.js";
+import { validate } from "../middlewares/validate.js";
+import { contactCreateSchema } from "../validations/contactValidation.js";
+const router = Router();
+router.use(authenticate);
+router.post("/rooms/:roomId", validate(contactCreateSchema), controller.create);
+router.get("/sent", controller.sent);
+router.get("/received", controller.received);
+router.get("/:id", controller.detail);
+router.patch("/:id/called", controller.called);
+router.patch("/:id/confirm-reached", controller.confirmReached);
+router.patch("/:id/confirm-not-reached", controller.confirmNotReached);
+router.patch("/:id/cancel", controller.cancel);
+export default router;

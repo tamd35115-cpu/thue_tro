@@ -1,0 +1,10 @@
+import { Router } from "express";
+import * as controller from "../controllers/notificationController.js";
+import { authenticate } from "../middlewares/authMiddleware.js";
+const router = Router();
+router.use(authenticate);
+router.get("/", controller.list);
+router.get("/unread-count", controller.unreadCount);
+router.patch("/read-all", controller.markAllRead);
+router.patch("/:id/read", controller.markRead);
+export default router;
